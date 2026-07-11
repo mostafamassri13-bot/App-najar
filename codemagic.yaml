@@ -7,8 +7,11 @@ workflows:
       - name: Unzip and Generate Correct Wrapper
         script: |
           unzip مساعد-النجار-الذكي.zip || true
-          # توليد أداة التشغيل بالإصدار المتوافق مع مشروعك تماماً
           gradle wrapper --gradle-version 9.3.1
+      - name: Generate Debug Keystore
+        script: |
+          # إنشاء ملف مفتاح التوقيع الافتراضي لحل مشكلة التوقيع الرقمي
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
       - name: Set up local.properties
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
