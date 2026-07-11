@@ -4,11 +4,11 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
     scripts:
-      - name: Unzip and Generate Wrapper
+      - name: Unzip and Generate Correct Wrapper
         script: |
           unzip مساعد-النجار-الذكي.zip || true
-          # توليد ملف gradlew المفقود تلقائياً في السيرفر
-          gradle wrapper
+          # توليد أداة التشغيل بالإصدار المتوافق مع مشروعك تماماً
+          gradle wrapper --gradle-version 9.3.1
       - name: Set up local.properties
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
