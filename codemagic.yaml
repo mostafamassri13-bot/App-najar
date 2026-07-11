@@ -1,0 +1,23 @@
+workflows:
+  android-workflow:
+    name: Android Build Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    scripts:
+      - name: Unzip Project Files
+        script: |
+          unzip مساعد-النجار-الذكي.zip
+          # الانتقال للمجلد المستخرج إذا كان بداخل مجلد فرعي
+          cd مساعد-النجار-الذكي || true
+          # نقل الملفات للمسار الرئيسي ليراها محرك التجميع
+          cp -R * ../ || true
+      - name: Set up local.properties
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Build Android APK
+        script: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/apk/**/*.apk
+
